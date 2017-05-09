@@ -82,6 +82,7 @@ class SiteController extends Controller
             ->with('author')
             ->with('categoryInfo')
             ->orderBy('create_time desc')
+            ->limit(5)
             ->all();
         $tags = $tagsModel->getTagsIdToName();
         $category = Category::getIdName();

@@ -11,6 +11,7 @@ use yii\filters\VerbFilter;
 use frontend\models\BlogForm;
 use common\models\Tags;
 use common\models\Category;
+use yii\data\Pagination;
 
 /**
  * BlogController implements the CRUD actions for Blog model.
@@ -48,16 +49,24 @@ class BlogController extends Controller
 
         $model = new Blog();
         $tagsModel = new Tags();
-        $data = $model->find()
+        $pageSize = Yii::$app->params['pageSize'];
+        $get = Yii::$app->request->get();
+        $query = $model->getBuildQuery();
+        $pagination = new Pagination(['totalCount' => $query->count()]);
+        $pagination->setPageSize($pageSize);
+        $data = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+        // $data = $model->find()
             ->with('author')
             ->with('categoryInfo')
-            ->orderBy('create_time desc')
             ->all();
+
         $tags = $tagsModel->getTagsIdToName();
         $category = Category::getIdName();
 
         return $this->render('index', [
             'data' => $data,
+            'pagination' => $pagination,
             'tags' => $tags,
             'category' => $category,
         ]);

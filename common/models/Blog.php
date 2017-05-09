@@ -56,6 +56,13 @@ class Blog extends \yii\db\ActiveRecord
             'update_time' => '更新时间'
         ];
     }
+     
+    public function getBuildQuery($where=[])
+    {
+        $data = self::find()->where($where)->orderBy('create_time desc');
+
+        return $data;
+    }
 
     public function getBlogCount()
     {

@@ -8,8 +8,6 @@ HomeAsset::register($this);
 
 $this->title = 'Kerwin';
 ?>
-<style>
-</style>
 <div class="row">
     <div class="col-lg-12">
         <div class="slide-show">

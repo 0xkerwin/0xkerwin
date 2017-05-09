@@ -24,6 +24,7 @@ $tags = explode(',', $tags);
     .content {
         background-color: #fff;
         padding: 15px;
+        margin-bottom:10px;
     }
 </style>
 <div class="row">
@@ -63,5 +64,11 @@ $tags = explode(',', $tags);
             <!-- /.box -->
 
         </section>
+    </div>    
+    <div class="col-lg-3">
+        <?= $this->render(
+                '/layouts/right.php'
+            )
+        ?>
     </div>
 </div>

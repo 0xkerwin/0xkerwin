@@ -9,14 +9,6 @@ use backend\modules\rbac\models\UserBackend;
  */
  class Blog extends \common\models\Blog
  {
-     
-    public function getBuildQuery($where=[])
-    {
-        $data = self::find()->where($where)->orderBy('create_time desc');
-
-        return $data;
-    }
-
     public function getBlog()
     {
         $query = $this->getBuildQuery();
