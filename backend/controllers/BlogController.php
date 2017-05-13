@@ -21,30 +21,34 @@ class BlogController extends Controller
     public function actionIndex()
     {
         $blog = new Blog();
-        $pageSize = Yii::$app->params['pageSize'];
-        $query = $blog->getBuildQuery();
-        $pagination = new Pagination(['totalCount' => $query->count()]);
-        $pagination->setPageSize($pageSize);
+
         $get = Yii::$app->request->get();
-        $title = isset($get['title']) ? $get['title'] : '';
-        $content = isset($get['content']) ? $get['content'] : '';
+        $title = isset($get['title']) ? trim($get['title']) : '';
+        $content = isset($get['content']) ? trim($get['content']) : '';
+        $author = isset($get['author']) ? trim($get['author']) : '';
         $where = array();
         $where = ['AND',['LIKE', 'title', $title],['LIKE', 'content', $content]];
-        if ($get) {
+
+        if (isset($get['time_range'])&&strlen(trim($get['time_range']))>0) {
             $range_time = explode('-', $get['time_range']);
             $start_time = $range_time[0];
             $end_time = $range_time[1];
             $where[] = ['BETWEEN', 'create_time', $start_time, $end_time];
         }
 
+        $pageSize = Yii::$app->params['pageSize'];
+        $query = $blog->getBuildQuery($where)
+            ->innerJoinWith(['author' => function($q) use($author) {
+                $q->andWhere(['LIKE', 'username', $author]);
+            },])
+            ->with('mender');
+
+        $pagination = new Pagination(['totalCount' => $query->count()]);
+        $pagination->setPageSize($pageSize);
+
         $datas = $query->offset($pagination->offset)
-        ->limit($pagination->limit)
-        ->with('author')
-        ->with('mender')
-        ->where($where)
-        // ->createCommand()->getRawSql();
-        // echo $datas;exit;
-        ->all();
+            ->limit($pagination->limit)
+            ->all();
 
         AdminLog::saveLog($this->route, 'opt_search', '查看列表', 1);
         return $this->render('index',['datas' => $datas, 'pagination' => $pagination, 'attrbutes' => $blog->attributeLabels()]);

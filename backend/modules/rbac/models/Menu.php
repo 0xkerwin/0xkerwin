@@ -106,7 +106,7 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     public static function getBuildQuery($conditions=1, $fields='*'){
-        $query = static::find()->select($fields)->where($conditions);
+        $query = static::find()->select($fields)->filterWhere($conditions);
 
         return $query;
     }

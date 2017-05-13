@@ -24,7 +24,7 @@ class Item extends \common\models\AuthItem
 
     /*生成查询*/
     public static function getBuildQuery($conditions=1, $fields='*'){
-        $query = static::find()->select($fields)->where($conditions);
+        $query = static::find()->select($fields)->filterWhere($conditions);
 
         return $query;
     }

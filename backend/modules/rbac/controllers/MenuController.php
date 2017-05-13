@@ -15,12 +15,21 @@ class MenuController extends Controller
 	public function actionIndex()
 	{
 		$menu = new Menu();
-		$query = Menu::getBuildQuery();
+
+        $get = Yii::$app->request->get();
+        $name = isset($get['name']) ? trim($get['name']) : '';
+        $route = isset($get['route']) ? trim($get['route']) : '';
+        $where = array();
+        $where = ['AND',['LIKE', 'name', $name],['LIKE', 'route', $route]];
+
+        $pageSize = Yii::$app->params['pageSize'];
+		$query = Menu::getBuildQuery($where);
         $pagination = new Pagination(['totalCount' => $query->count()]);
-        $pagination->setPageSize(5);
+        $pagination->setPageSize($pageSize);
 
         $datas = $query->offset($pagination->offset)
         ->limit($pagination->limit)
+        ->orderBy('id desc')
         ->all();
 
         AdminLog::saveLog($this->route, 'opt_search', '查看列表', 1);

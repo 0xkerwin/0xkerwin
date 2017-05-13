@@ -59,7 +59,7 @@ class Blog extends \yii\db\ActiveRecord
      
     public function getBuildQuery($where=[])
     {
-        $data = self::find()->where($where)->orderBy('create_time desc');
+        $data = self::find()->filterWhere($where)->orderBy('create_time desc');
 
         return $data;
     }

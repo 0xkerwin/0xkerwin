@@ -1,11 +1,15 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 use backend\assets\CommonAsset;
+use backend\assets\TimeRangeAsset;
 
 CommonAsset::register($this);
+TimeRangeAsset::register($this);
 
 $this->title = '操作日志列表';
 $this->params['breadcrumbs'][] = $this->title;
+$params_str = (new \yii\web\Request)->getQueryParams();
 ?>
 
 <section class="content">
@@ -23,13 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
                         <!-- row start search-->
                         <div class="row">
                             <div class="col-xs-12">
-                                <form id="search-form" class="form-inline" action="" method="get">
+                                <form id="search-form" class="form-inline" action="<?= Url::to('index')?>" method="get">
                                     <div class="form-group">
-                                        <label>ID:</label>
-                                        <input type="text" class="form-control" id="" name="" value="">
+                                        <label><?=$attrbutes['admin_name']; ?>：</label>
+                                        <input type="text" class="form-control" name="admin_name" value="<?= isset($params_str['admin_name']) ? $params_str['admin_name'] : ''?>">
                                     </div>
                                     <div class="form-group">
-                                        <a class="btn btn-primary btn-sm" href="#"> <i class="fa fa-search"></i> 搜索</a>
+                                        <label><?=$attrbutes['object']; ?>：</label>
+                                        <input type="text" class="form-control" name="object" value="<?= isset($params_str['object']) ? $params_str['object'] : ''?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?=$attrbutes['record_time']; ?>：</label>
+                                        <input type="text" class="form-control" id="" name="time_range" readonly="" value="<?= isset($params_str['time_range']) ? $params_str['time_range'] : ''?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-search"></i> 搜索</button>
+                                        <button type="reset" class="btn btn-primary btn-sm"> <i class="fa fa-eraser"></i> 重置</button>
                                     </div>
                                 </form>
                             </div>

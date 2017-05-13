@@ -19,9 +19,18 @@ class PermissionController extends Controller
         // $auth = Yii::$app->authManager;
         // $permission = $auth -> getPermissions();
         $permission = new PermissionForm();
-        $query = PermissionForm::getBuildQuery()->andWhere(['type' => $permission->type]);
+
+        /*查询条件*/
+        $get = Yii::$app->request->get();
+        $name = isset($get['name']) ? trim($get['name']) : '';
+        $description = isset($get['description']) ? trim($get['description']) : '';
+        $where = array();
+        $where = ['AND',['LIKE', 'name', $name],['LIKE', 'description', $description]];
+
+        $pageSize = Yii::$app->params['pageSize'];
+        $query = PermissionForm::getBuildQuery($where)->andWhere(['type' => $permission->type]);
         $pagination = new Pagination(['totalCount' => $query->count()]);
-        $pagination->setPageSize(5);
+        $pagination->setPageSize($pageSize);
 
         $datas = $query->offset($pagination->offset)
         ->limit($pagination->limit)

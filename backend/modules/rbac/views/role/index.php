@@ -7,6 +7,7 @@ CommonAsset::register($this);
 
 $this->title = '角色列表';
 $this->params['breadcrumbs'][] = $this->title;
+$params_str = (new \yii\web\Request)->getQueryParams();
 ?>
 
 <section class="content">
@@ -25,13 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         <!-- row start search-->
                         <div class="row">
                             <div class="col-xs-12">
-                                <form id="search-form" class="form-inline" action="" method="get">
+                                <form id="search-form" class="form-inline" action="<?= Url::to('index')?>" method="get">
                                     <div class="form-group">
-                                        <label>ID:</label>
-                                        <input type="text" class="form-control" id="" name="" value="">
+                                        <label><?=$attrbutes['name']; ?>：</label>
+                                        <input type="text" class="form-control" name="name" value="<?= isset($params_str['name']) ? $params_str['name'] : ''?>">
                                     </div>
                                     <div class="form-group">
-                                        <a class="btn btn-primary btn-sm" href="#"> <i class="fa fa-search"></i> 搜索</a>
+                                        <label><?=$attrbutes['description']; ?>：</label>
+                                        <input type="text" class="form-control" name="description" value="<?= isset($params_str['description']) ? $params_str['description'] : ''?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-search"></i> 搜索</button>
+                                        <button type="reset" class="btn btn-primary btn-sm"> <i class="fa fa-eraser"></i> 重置</button>
                                     </div>
                                 </form>
                             </div>

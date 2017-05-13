@@ -19,9 +19,17 @@ class RoleController extends Controller
 {    
     public function actionIndex(){
         $role = new RoleForm();
-        $query = RoleForm::getBuildQuery()->andWhere(['type' => $role->type]);
+
+        $get = Yii::$app->request->get();
+        $name = isset($get['name']) ? trim($get['name']) : '';
+        $description = isset($get['description']) ? trim($get['description']) : '';
+        $where = array();
+        $where = ['AND',['LIKE', 'name', $name],['LIKE', 'description', $description]];
+
+        $pageSize = Yii::$app->params['pageSize'];
+        $query = RoleForm::getBuildQuery($where)->andWhere(['type' => $role->type]);
         $pagination = new Pagination(['totalCount' => $query->count()]);
-        $pagination->setPageSize(5);
+        $pagination->setPageSize($pageSize);
 
         $datas = $query->offset($pagination->offset)
         ->limit($pagination->limit)

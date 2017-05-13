@@ -62,9 +62,22 @@ class UserBackendController extends Controller
             'dataProvider' => $dataProvider,
         ]);*/
         $user = new UserBackend();
-        $query = UserBackend::find();
+        $get = Yii::$app->request->get();
+        $username = isset($get['username']) ? trim($get['username']) : '';
+        $email = isset($get['email']) ? trim($get['email']) : '';
+        $where = array();
+        $where = ['AND',['LIKE', 'username', $username],['LIKE', 'email', $email]];
+        if (isset($get['time_range'])&&strlen(trim($get['time_range']))>0) {
+            $range_time = explode('-', $get['time_range']);
+            $start_time = $range_time[0];
+            $end_time = $range_time[1];
+            $where[] = ['BETWEEN', 'created_at', $start_time, $end_time];
+        }
+
+        $pageSize = Yii::$app->params['pageSize'];
+        $query = UserBackend::find()->andWhere($where);
         $pagination = new Pagination(['totalCount' => $query->count()]);
-        $pagination->setPageSize(5);
+        $pagination->setPageSize($pageSize);
 
         $datas = $query->offset($pagination->offset)
             ->limit($pagination->limit)
