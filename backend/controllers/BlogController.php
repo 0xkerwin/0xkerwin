@@ -12,6 +12,7 @@ use yii\data\Pagination;
 use backend\models\AdminLog;
 use common\models\Category;
 use common\models\Tags;
+use common\models\TagMap;
 
 /**
 * 
@@ -62,10 +63,12 @@ class BlogController extends Controller
         $post = Yii::$app->request->post();
         $category = Category::getIdName();
         $tags = new Tags();
+        $tagMap = new TagMap();
 
         if (Yii::$app->request->isPost){
-            $tag = $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
-            if ($tag) {
+            $tag = empty($post['Blog']['tags']) ? '' : $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
+
+            if ($tag !== false) {
                 $post['Blog']['tags'] = $tag;
                 if ($model->load($post) && $model->validate()) {
                     $model->user_id = $user->id;
@@ -73,6 +76,7 @@ class BlogController extends Controller
                     if($model->save(false)){
                         $tags->addCount(explode(',', $model->tags));
                         $categoryModel->addCount($model->category);
+                        !empty($model->tags) && $tagMap->addMap($model->id, explode(',', $model->tags));
 
                         AdminLog::saveLog($this->route, 'opt_create', $msg, 1);
                         Yii::$app->getSession()->setFlash('success', '创建成功');
@@ -104,6 +108,7 @@ class BlogController extends Controller
     public function actionUpdate($id)
     {
         $tags = new Tags();
+        $tagMap = new TagMap();
         $categoryModel = new Category();
         $model = $this->findModel($id);
         $post = Yii::$app->request->post();
@@ -115,7 +120,7 @@ class BlogController extends Controller
 
         if (Yii::$app->request->isPost) {
             $tag = $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
-            if ($tag) {
+            if ($tag !== false) {
                 $post['Blog']['tags'] = $tag;
 
                 if ($model->load($post) && $model->validate()) {
@@ -125,6 +130,7 @@ class BlogController extends Controller
                         /*更新标签中的总数*/
                         $tags->updateCount(explode(',', $old_tags), explode(',', $model->tags));
                         $categoryModel->updateCount($old_category, $model->category);
+                        $tagMap->updateMap($id, explode(',', $model->tags));
 
                         AdminLog::saveLog($this->route, 'opt_update', $msg, 1);
                         Yii::$app->getSession()->setFlash('success', '更新成功');
@@ -158,6 +164,7 @@ class BlogController extends Controller
         $model = $this->findModel($id);
         $tags = new Tags();
         $category = new Category();
+        $tagMap = new TagMap();
         $tags_id = $model->tags;
         $category_id = $model->category;
 
@@ -165,6 +172,7 @@ class BlogController extends Controller
         if ($model->delete()) {
             $tags->deleteTags(explode(',', $tags_id));
             $category->subtractCount($category_id);
+            $tagMap->deleteMap($id);
 
             AdminLog::saveLog($this->route, 'opt_delete', $msg, 1);
             Yii::$app->getSession()->setFlash('success', '删除成功');

@@ -30,7 +30,7 @@ $tags = explode(',', $tags);
 <div class="row">
     <div class="col-lg-9">
 
-        <section class="content">
+        <section class="content box-common">
 
             <!-- Default box -->
             <div class="box">

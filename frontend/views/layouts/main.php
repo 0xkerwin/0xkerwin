@@ -10,9 +10,11 @@ use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\assets\JqueryAsset;
 use common\widgets\Alert;
+use yii\helpers\Url;
 
 AppAsset::register($this);
 JqueryAsset::register($this);
+$params_str = (new \yii\web\Request)->getQueryParams();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -38,8 +40,10 @@ JqueryAsset::register($this);
     ]);
     $menuItems = [
         ['label' => '首页', 'url' => ['/site/index']],
+        ['label' => '博客', 'url' => ['/blog/index']],
         ['label' => '关于', 'url' => ['/site/about']],
         ['label' => '联系', 'url' => ['/site/contact']],
+        '<li><form class="navbar-form" action="'.Url::to(['/blog/index']).'" method="get"><div class="input-group"><input type="text" class="form-control" name="search_keyword" placeholder="全站搜索" value="'.(isset($params_str['search_keyword']) ? $params_str['search_keyword'] : '').'"><span class="input-group-btn"><button type="submit" class="btn btn-default"><span class="fa fa-search"></span></button></span></div></form><li>',
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '注册', 'url' => ['/site/signup']];
@@ -70,11 +74,15 @@ JqueryAsset::register($this);
     </div>
 </div>
 
+<div class="backTop">
+    <a href="#" class="toTop" style="display: inline;" data-widget="返回顶部" data-toggle="tooltip" title="返回顶部"><span class="toTopHover" style="opacity: 0;"></span></a>
+</div>
+
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <!-- <p class="pull-right"><?//= Yii::powered() ?></p> -->
     </div>
 </footer>
 

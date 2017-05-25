@@ -51,12 +51,31 @@ class BlogController extends Controller
         $tagsModel = new Tags();
         $pageSize = Yii::$app->params['pageSize'];
         $get = Yii::$app->request->get();
-        $query = $model->getBuildQuery();
+        $where = array('AND');
+
+        if (isset($get['category'])) {
+            $where[] = ['category'=>trim($get['category'])];
+        }
+
+        $tags = isset($get['tag']) ? $get['tag'] : '';
+
+        if (isset($get['search_keyword'])) {
+            $where[] = [
+                'OR', 
+                ['category'=>trim($get['search_keyword'])],
+                ['LIKE', 'title', trim($get['search_keyword'])],
+                ['LIKE', 'content', trim($get['search_keyword'])],
+            ];
+        }
+
+        $query = empty($tags) ? $model->getBuildQuery($where) : $model->getBuildQuery($where)->innerJoinWith(['blogByTag' => function($q) use($tags) { $q->andWhere(['tag_id' => $tags]); }]);
+
         $pagination = new Pagination(['totalCount' => $query->count()]);
         $pagination->setPageSize($pageSize);
         $data = $query->offset($pagination->offset)
             ->limit($pagination->limit)
-        // $data = $model->find()
+            /*->createCommand()->getRawSql();
+            echo $data;exit;*/
             ->with('author')
             ->with('categoryInfo')
             ->all();

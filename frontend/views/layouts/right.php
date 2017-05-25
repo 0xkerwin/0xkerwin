@@ -7,7 +7,7 @@ use yii\helpers\Url;
             <div class="container-box box-common">
                 <h3><i class="fa fa-tags"></i> 热门标签</h3>
                 <ul class="tag">
-                    <li v-for="(tag, key) in tags"><a href="#">{{ tag }}</a></li>
+                    <li v-for="(tag, key) in tags"><a v-on:click="searchTag(key)">{{ tag }}</a></li>
                 </ul>
             </div>
         </div>
@@ -17,7 +17,7 @@ use yii\helpers\Url;
             <div class="container-box box-common">
                 <h3><i class="fa fa-folder"></i> 分类</h3>
                 <ul class="nav">
-                    <li v-for="(category, key) in categories"><a href="#">{{ category }}</a></li>
+                    <li v-for="(category, key) in categories"><a v-on:click="searchCategory(key)">{{ category }}</a></li>
                 </ul>
             </div>
         </div>
@@ -44,6 +44,14 @@ use yii\helpers\Url;
                     self.categories = res.categories;
                 }
             });
+        },
+        methods: {
+            searchCategory: function(key) {
+                window.location.href = "<?= Url::to('/blog/index') ?>?category="+key;
+            },
+            searchTag: function(key) {
+                window.location.href = "<?= Url::to('/blog/index') ?>?tag="+key;
+            }
         }
     });
 

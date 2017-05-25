@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use backend\modules\rbac\models\UserBackend;
 use common\models\Category;
+use common\models\TagMap;
 
 /**
  * This is the model class for table "blog".
@@ -82,25 +83,25 @@ class Blog extends \yii\db\ActiveRecord
     /*
      * 获取分类
      * */
-
     public function getCategoryInfo()
     {
         return $this->hasOne(Category::className(), ['id' => 'category']);
     }
 
+    /**
+     * 根据标签获取博客
+     */
+    public function getBlogByTag()
+    {
+        return $this->hasMany(TagMap::className(), ['blog_id' => 'id']);
+    }
+
     public function getOneBlog($id)
     {
-        /*$query = self::find()->where(['blog.id' => $id]);
-        $res = $query
-            ->joinWith('author',false,'INNER JOIN')
-            ->one();*/
-        /*SELECT `blog`.* FROM `blog` INNER JOIN `user_backend` ON `blog`.`user_id` = `user_backend`.`id` WHERE `blog`.`id`='5'*/
-
         $res = self::find()
             ->where(['id' => $id])
             ->with('author')
             ->one();
-        /*SELECT * FROM `blog` WHERE ``.`id`='5'*/
 
         return $res;
     }

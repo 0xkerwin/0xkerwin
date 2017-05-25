@@ -8,13 +8,14 @@ HomeAsset::register($this);
 
 $this->title = 'Kerwin';
 ?>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="slide-show">
             <!-- main-slider -->
             <ul id="demo1">
                 <li>
-                    <img src="images/1.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/1.jpg" alt="" />
                     <!--Slider Description example-->
                     <div class="slide-desc">
                         <h3>Fashion</h3>
@@ -22,14 +23,14 @@ $this->title = 'Kerwin';
                     </div>
                 </li>
                 <li>
-                    <img src="images/2.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/2.jpg" alt="" />
                     <div class="slide-desc">
                         <h3>Life Style </h3>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
                     </div>
                 </li>
                 <li>
-                    <img src="images/3.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/3.jpg" alt="" />
                     <div class="slide-desc">
                         <h3>Photography</h3>
                         <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature. </p>
@@ -53,13 +54,13 @@ $this->title = 'Kerwin';
                         <div class="row">
                             <div class="col-lg-4 label-img-size">
                                 <a href="<?= Url::to(['blog/view', 'id'=>$value->id])?>" class="post-label">
-                                    <img src="<?= $value->categoryInfo->image_url ?>" alt="<?= $value->title ?>">
+                                    <img src="<?= \Yii::$app->params['staticDomain'].$value->categoryInfo->image_url ?>" alt="<?= $value->title ?>">
                                 </a>
                             </div>
                             <div class="col-lg-8 btn-group">
                                 <div class="col-lg-12">
                                     <h3>
-                                        <a href="<?= Url::to(['blog/view', 'id'=>$value->id])?>">
+                                        <a href="<?= Url::to(['blog/view', 'id'=>$value->id])?>" class="title-font-color">
                                             <?= $value->title ?>
                                         </a>
                                     </h3>
@@ -81,29 +82,29 @@ $this->title = 'Kerwin';
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="col-lg-8">
+                                <!-- <div class="col-lg-8"> -->
                                     <div class="category pull-left">
                                         <span class="fa fa-folder"></span>
-                                        <a href="#"><?= $value->categoryInfo->name?></a>
+                                        <a href="<?= Url::to(['blog/index', 'category'=>$value->categoryInfo->id])?>" class="label"><?= $value->categoryInfo->name?></a>
                                     </div>
                                     <div class="tags pull-left">
-                                        <span class="fa fa-tags"></span>
 
                                         <?php
                                         if (isset($value->tags)):
+                                            echo '<span class="fa fa-tags"></span>';
                                             foreach (explode(',', $value->tags) as $k => $v):
                                                 if (isset($tags[$v])):
-                                                    echo '<a href="#" class="label label-warning tags-space">'.$tags[$v].'</a>';
+                                                    echo '<a href="'.Url::to(["blog/index", "tag"=>$v]).'" class="label label-warning tags-space">'.$tags[$v].'</a>';
                                                 endif;
                                             endforeach;
                                         endif;
                                         ?>
 
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <a href="<?= Url::to(['blog/view', 'id'=>$value->id])?>"><button class="btn btn-warning no-radius btn-sm pull-right">阅读全文</button></a>
-                                </div>
+                                <!-- </div> -->
+                                <!-- <div class="col-lg-4">
+                                    <a href="<?//= Url::to(['blog/view', 'id'=>$value->id])?>"><button class="btn btn-warning no-radius btn-sm pull-right">阅读全文</button></a>
+                                </div> -->
                             </div>
                         </div>
                     </div>

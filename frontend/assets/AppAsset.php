@@ -16,6 +16,7 @@ class AppAsset extends AssetBundle
         'css/default.css'
     ];
     public $js = [
+        'js/move-top.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',

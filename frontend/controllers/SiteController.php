@@ -78,11 +78,12 @@ class SiteController extends Controller
     {
         $model = new Blog();
         $tagsModel = new Tags();
+        $pageSize = Yii::$app->params['pageSize'];
         $data = $model->find()
             ->with('author')
             ->with('categoryInfo')
             ->orderBy('create_time desc')
-            ->limit(5)
+            ->limit($pageSize)
             ->all();
         $tags = $tagsModel->getTagsIdToName();
         $category = Category::getIdName();

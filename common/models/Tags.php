@@ -51,9 +51,10 @@ class Tags extends \yii\db\ActiveRecord
         ];
     }
 
-    /*
-     * 获取所有的标签
-     * */
+    /**
+     *  获取所以标签
+     * @return array
+     */
     public function getTagsIdToName()
     {
         $res = self::find()->all();
@@ -61,14 +62,21 @@ class Tags extends \yii\db\ActiveRecord
         return ArrayHelper::map($res, 'id', 'name');
     }
 
-    /*添加标签并返回标签id*/
+    /**
+     * 添加标签并返回标签id
+     * @param  array $tags_arr 标记名称
+     * @return string           字符串，以','隔开
+     */
     public function getTagsByName($tags_arr)
     {   
         $model = new self;
         $new_tags = array();
 
-        if (!$tags_arr) {
-            return $tags_arr;
+        if (count($tags_arr)<=1) {
+            $arr=current($tags_arr);
+            if(empty($arr)){
+                return implode(',', $tags_arr);
+            }
         }
 
         foreach ($tags_arr as $key => $value) {
@@ -95,7 +103,6 @@ class Tags extends \yii\db\ActiveRecord
             return $tags_str;
         }
 
-        $model = new self;
         foreach ($tags_str as $key => $value) {
             $tag = self::findOne($value);
             if ($tag) {
