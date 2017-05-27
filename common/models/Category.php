@@ -33,6 +33,7 @@ class Category extends \yii\db\ActiveRecord
             [['count'], 'required'],
             [['count'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
+            ['image_url', 'string'],
             [['name'], 'string', 'max' => 100],
         ];
     }
@@ -46,6 +47,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => '分类名称',
             'count' => '文章总数',
+            'image_url' => '图片',
             'create_time' => 'Create Time',
             'update_time' => 'Update Time',
         ];
