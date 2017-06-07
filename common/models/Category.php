@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use yii\web\UploadFile;
 
 /**
  * This is the model class for table "category".
@@ -16,6 +17,8 @@ use yii\helpers\ArrayHelper;
  */
 class Category extends \yii\db\ActiveRecord
 {
+    public $file;
+
     /**
      * @inheritdoc
      */
@@ -30,10 +33,11 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['count'], 'required'],
+            [['count', 'name', 'image_url'], 'required'],
             [['count'], 'integer'],
             [['create_time', 'update_time'], 'safe'],
-            ['image_url', 'string'],
+            [['image_url'], 'string'],
+            [['file'], 'file'],
             [['name'], 'string', 'max' => 100],
         ];
     }
