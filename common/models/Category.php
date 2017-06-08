@@ -33,10 +33,11 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['count', 'name', 'image_url'], 'required'],
+            [['name'], 'required'],
             [['count'], 'integer'],
+            [['name'], 'unique'],
             [['create_time', 'update_time'], 'safe'],
-            [['image_url'], 'string'],
+            [['image_url'], 'string', 'max' => 256],
             [['file'], 'file'],
             [['name'], 'string', 'max' => 100],
         ];
