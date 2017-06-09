@@ -4,6 +4,11 @@ use yii\helpers\Url;
 <div id="app" v-cloak>
     <div class="row right-list">
         <div class="col-lg-12">
+            <embed width="100%" height="210" name="plugin" id="plugin" src="http://cdn.abowman.com/widgets/hamster/hamster.swf" type="application/x-shockwave-flash">
+        </div>
+    </div>
+    <div class="row right-list">
+        <div class="col-lg-12">
             <div class="container-box box-common">
                 <h3><i class="fa fa-tags"></i> 热门标签</h3>
                 <ul class="tag">

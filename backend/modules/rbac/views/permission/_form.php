@@ -20,7 +20,7 @@ use yii\helpers\Url;
     <div class="form-group">
         <?= $form->field($menu_item, 'menu_id')->hiddenInput(['value'=> (!isset($menu_id) ? "":$menu_id)])->label('所属模块'); ?>
         <div class="profile-contact-links align-left">
-            <div  style="overflow: auto;height: 100px;" >
+            <div  style="overflow: auto;height: 200px;" >
                 <ul id="treeDemo" class="ztree"></ul>
             </div>
         </div>

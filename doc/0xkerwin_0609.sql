@@ -12,11 +12,11 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 
--- 导出 advanced 的数据库结构
-CREATE DATABASE IF NOT EXISTS `advanced` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `advanced`;
+-- 导出 kerwin 的数据库结构
+CREATE DATABASE IF NOT EXISTS `kerwin` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `kerwin`;
 
--- 导出  表 advanced.admin_log 结构
+-- 导出  表 kerwin.admin_log 结构
 CREATE TABLE IF NOT EXISTS `admin_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_id` int(10) unsigned NOT NULL COMMENT '操作用户ID',
@@ -32,9 +32,12 @@ CREATE TABLE IF NOT EXISTS `admin_log` (
   `remark` text COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志';
+
+-- 正在导出表  kerwin.admin_log 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `admin_log` DISABLE KEYS */;
 /*!40000 ALTER TABLE `admin_log` ENABLE KEYS */;
 
--- 导出  表 advanced.auth_assignment 结构
+-- 导出  表 kerwin.auth_assignment 结构
 CREATE TABLE IF NOT EXISTS `auth_assignment` (
   `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -42,9 +45,14 @@ CREATE TABLE IF NOT EXISTS `auth_assignment` (
   PRIMARY KEY (`item_name`,`user_id`),
   CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 正在导出表  kerwin.auth_assignment 的数据：~1 rows (大约)
+/*!40000 ALTER TABLE `auth_assignment` DISABLE KEYS */;
+INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
+	('test', '2', 1490181222);
 /*!40000 ALTER TABLE `auth_assignment` ENABLE KEYS */;
 
--- 导出  表 advanced.auth_item 结构
+-- 导出  表 kerwin.auth_item 结构
 CREATE TABLE IF NOT EXISTS `auth_item` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `type` int(11) NOT NULL,
@@ -59,13 +67,18 @@ CREATE TABLE IF NOT EXISTS `auth_item` (
   CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 正在导出表  advanced.auth_item 的数据：~20 rows (大约)
+-- 正在导出表  kerwin.auth_item 的数据：~27 rows (大约)
 /*!40000 ALTER TABLE `auth_item` DISABLE KEYS */;
 INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `created_at`, `updated_at`) VALUES
+	('/admin-log/index', 2, '日志列表', NULL, NULL, 1497005940, 1497005940),
 	('/blog/delete', 2, '博客删除', NULL, NULL, 1490181166, 1490181166),
 	('/blog/index', 2, '博客列表', NULL, NULL, 1490180955, 1490180955),
 	('/blog/update', 2, '博客更新', NULL, NULL, 1490181120, 1490181120),
 	('/blog/view', 2, '博客详情', NULL, NULL, 1490181146, 1490181146),
+	('/category/create', 2, '分类添加', NULL, NULL, 1497004250, 1497004250),
+	('/category/delete', 2, '分类删除', NULL, NULL, 1497004417, 1497004417),
+	('/category/index', 2, '分类列表', NULL, NULL, 1497004141, 1497004141),
+	('/category/update', 2, '分类更新', NULL, NULL, 1497004334, 1497004334),
 	('/rbac/menu/create', 2, '菜单添加', NULL, NULL, 1487733184, 1487733184),
 	('/rbac/menu/delete', 2, '菜单删除', NULL, NULL, 1487733239, 1487733239),
 	('/rbac/menu/index', 2, '菜单列表', NULL, NULL, 1487676156, 1487676156),
@@ -83,11 +96,11 @@ INSERT INTO `auth_item` (`name`, `type`, `description`, `rule_name`, `data`, `cr
 	('/rbac/user-backend/signup', 2, '用户添加', NULL, NULL, 1487676007, 1487677264),
 	('/rbac/user-backend/update', 2, '用户更新', NULL, NULL, 1487676058, 1487732893),
 	('/role/create', 2, '博客添加', NULL, NULL, 1490181000, 1490181000),
-	('sysadmin', 1, '系统管理员', NULL, NULL, 1487676207, 1490080713),
-	('test', 1, '测试员', NULL, NULL, 1490181213, 1490181213);
+	('sysadmin', 1, '系统管理员', NULL, NULL, 1487676207, 1497007283),
+	('test', 1, '测试员', NULL, NULL, 1490181213, 1497007204);
 /*!40000 ALTER TABLE `auth_item` ENABLE KEYS */;
 
--- 导出  表 advanced.auth_item_child 结构
+-- 导出  表 kerwin.auth_item_child 结构
 CREATE TABLE IF NOT EXISTS `auth_item_child` (
   `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -97,17 +110,45 @@ CREATE TABLE IF NOT EXISTS `auth_item_child` (
   CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 正在导出表  advanced.auth_item_child 的数据：~5 rows (大约)
+-- 正在导出表  kerwin.auth_item_child 的数据：~33 rows (大约)
 /*!40000 ALTER TABLE `auth_item_child` DISABLE KEYS */;
 INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
+	('sysadmin', '/admin-log/index'),
+	('test', '/admin-log/index'),
+	('sysadmin', '/blog/delete'),
+	('sysadmin', '/blog/index'),
 	('test', '/blog/index'),
+	('sysadmin', '/blog/update'),
+	('sysadmin', '/blog/view'),
+	('sysadmin', '/category/create'),
+	('sysadmin', '/category/delete'),
+	('sysadmin', '/category/index'),
+	('test', '/category/index'),
+	('sysadmin', '/category/update'),
+	('sysadmin', '/rbac/menu/create'),
+	('sysadmin', '/rbac/menu/delete'),
+	('sysadmin', '/rbac/menu/index'),
 	('test', '/rbac/menu/index'),
+	('sysadmin', '/rbac/menu/update'),
+	('sysadmin', '/rbac/perminssion/create'),
+	('sysadmin', '/rbac/permission/delete'),
+	('sysadmin', '/rbac/permission/index'),
 	('test', '/rbac/permission/index'),
+	('sysadmin', '/rbac/permission/update'),
+	('sysadmin', '/rbac/role/create'),
+	('sysadmin', '/rbac/role/delete'),
+	('sysadmin', '/rbac/role/index'),
 	('test', '/rbac/role/index'),
-	('test', '/rbac/user-backend/index');
+	('sysadmin', '/rbac/role/update'),
+	('sysadmin', '/rbac/user-backend/delete'),
+	('sysadmin', '/rbac/user-backend/index'),
+	('test', '/rbac/user-backend/index'),
+	('sysadmin', '/rbac/user-backend/signup'),
+	('sysadmin', '/rbac/user-backend/update'),
+	('sysadmin', '/role/create');
 /*!40000 ALTER TABLE `auth_item_child` ENABLE KEYS */;
 
--- 导出  表 advanced.auth_rule 结构
+-- 导出  表 kerwin.auth_rule 结构
 CREATE TABLE IF NOT EXISTS `auth_rule` (
   `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `data` text COLLATE utf8_unicode_ci,
@@ -116,11 +157,11 @@ CREATE TABLE IF NOT EXISTS `auth_rule` (
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 正在导出表  advanced.auth_rule 的数据：~0 rows (大约)
+-- 正在导出表  kerwin.auth_rule 的数据：~0 rows (大约)
 /*!40000 ALTER TABLE `auth_rule` DISABLE KEYS */;
 /*!40000 ALTER TABLE `auth_rule` ENABLE KEYS */;
 
--- 导出  表 advanced.blog 结构
+-- 导出  表 kerwin.blog 结构
 CREATE TABLE IF NOT EXISTS `blog` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
@@ -132,31 +173,29 @@ CREATE TABLE IF NOT EXISTS `blog` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- 正在导出表  kerwin.blog 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `blog` DISABLE KEYS */;
 /*!40000 ALTER TABLE `blog` ENABLE KEYS */;
 
--- 导出  表 advanced.category 结构
+-- 导出  表 kerwin.category 结构
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '分类名字',
   `count` int(11) NOT NULL DEFAULT '0' COMMENT '文章数量',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `image_url` varchar(256) DEFAULT NULL,
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `image_url` varchar(256) DEFAULT '/images/undefine.jpg',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='分类';
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='分类';
 
--- 正在导出表  advanced.category 的数据：4 rows
+-- 正在导出表  kerwin.category 的数据：0 rows
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` (`id`, `name`, `count`, `create_time`, `update_time`, `image_url`) VALUES
-	(1, 'PHP', 0, '2017-03-28 13:55:14', '0000-00-00 00:00:00', '/images/category/php.jpg'),
-	(2, 'Linux', 0, '2017-03-28 19:28:03', '0000-00-00 00:00:00', '/images/category/linux.jpg'),
-	(3, 'Composer', 0, '2017-05-05 09:32:19', '0000-00-00 00:00:00', '/images/category/composer.jpg'),
-	(4, 'Elasticsearch', 0, '2017-05-23 14:36:47', '0000-00-00 00:00:00', '/images/category/elasticsearch.jpg');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 
--- 导出  表 advanced.menu 结构
+-- 导出  表 kerwin.menu 结构
 CREATE TABLE IF NOT EXISTS `menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) NOT NULL,
@@ -167,9 +206,9 @@ CREATE TABLE IF NOT EXISTS `menu` (
   PRIMARY KEY (`id`),
   KEY `parent` (`parent`),
   CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `menu` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
--- 正在导出表  advanced.menu 的数据：~7 rows (大约)
+-- 正在导出表  kerwin.menu 的数据：~7 rows (大约)
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 	(1, '系统管理', NULL, NULL, NULL, '{"icon":"fa fa-gears","visible":"true"}'),
@@ -179,17 +218,18 @@ INSERT INTO `menu` (`id`, `name`, `parent`, `route`, `order`, `data`) VALUES
 	(5, '菜单管理', 1, '/rbac/menu/index', NULL, '{"icon":"fa fa-th-list","visible":"true"}'),
 	(6, '文章管理', NULL, NULL, NULL, '{"icon":"fa fa-book","visible":"true"}'),
 	(7, '文章列表', 6, '/blog/index', NULL, '{"icon":"fa fa-list-alt","visible":"true"}'),
-	(8, '操作日志', 1, '/admin-log/index', NULL, '{"icon":"fa fa-file-text","visible":"true"}');
+	(8, '操作日志', 1, '/admin-log/index', NULL, '{"icon":"fa fa-file-text","visible":"true"}'),
+	(9, '博客分类', 6, '/category/index', NULL, '{"icon":"fa fa-folder","visible":"true"}');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
--- 导出  表 advanced.menu_item 结构
+-- 导出  表 kerwin.menu_item 结构
 CREATE TABLE IF NOT EXISTS `menu_item` (
   `menu_id` int(11) NOT NULL,
   `item_name` varchar(64) NOT NULL,
   UNIQUE KEY `menu_item` (`menu_id`,`item_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单权限关联表';
 
--- 正在导出表  advanced.menu_item 的数据：~19 rows (大约)
+-- 正在导出表  kerwin.menu_item 的数据：~25 rows (大约)
 /*!40000 ALTER TABLE `menu_item` DISABLE KEYS */;
 INSERT INTO `menu_item` (`menu_id`, `item_name`) VALUES
 	(2, '/rbac/user-backend/delete'),
@@ -212,17 +252,22 @@ INSERT INTO `menu_item` (`menu_id`, `item_name`) VALUES
 	(7, '/blog/index'),
 	(7, '/blog/update'),
 	(7, '/blog/view'),
-	(7, '/role/create');
+	(7, '/role/create'),
+	(8, '/admin-log/index'),
+	(9, '/category/create'),
+	(9, '/category/delete'),
+	(9, '/category/index'),
+	(9, '/category/update');
 /*!40000 ALTER TABLE `menu_item` ENABLE KEYS */;
 
--- 导出  表 advanced.migration 结构
+-- 导出  表 kerwin.migration 结构
 CREATE TABLE IF NOT EXISTS `migration` (
   `version` varchar(180) NOT NULL,
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  advanced.migration 的数据：~3 rows (大约)
+-- 正在导出表  kerwin.migration 的数据：~3 rows (大约)
 /*!40000 ALTER TABLE `migration` DISABLE KEYS */;
 INSERT INTO `migration` (`version`, `apply_time`) VALUES
 	('m000000_000000_base', 1465885143),
@@ -230,7 +275,7 @@ INSERT INTO `migration` (`version`, `apply_time`) VALUES
 	('m140506_102106_rbac_init', 1465906972);
 /*!40000 ALTER TABLE `migration` ENABLE KEYS */;
 
--- 导出  表 advanced.tags 结构
+-- 导出  表 kerwin.tags 结构
 CREATE TABLE IF NOT EXISTS `tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '标签名字',
@@ -239,18 +284,24 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='标签';
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='标签';
+
+-- 正在导出表  kerwin.tags 的数据：0 rows
+/*!40000 ALTER TABLE `tags` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tags` ENABLE KEYS */;
 
--- 导出  表 advanced.tag_map 结构
+-- 导出  表 kerwin.tag_map 结构
 CREATE TABLE IF NOT EXISTS `tag_map` (
   `tag_id` int(11) NOT NULL COMMENT '标签id',
   `blog_id` int(11) NOT NULL COMMENT '博客id',
   UNIQUE KEY `blog_tag` (`tag_id`,`blog_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签映射表';
+
+-- 正在导出表  kerwin.tag_map 的数据：~0 rows (大约)
+/*!40000 ALTER TABLE `tag_map` DISABLE KEYS */;
 /*!40000 ALTER TABLE `tag_map` ENABLE KEYS */;
 
--- 导出  表 advanced.user 结构
+-- 导出  表 kerwin.user 结构
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `username` varchar(255) NOT NULL COMMENT '用户名',
@@ -265,14 +316,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
--- 正在导出表  advanced.user 的数据：~2 rows (大约)
+-- 正在导出表  kerwin.user 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `role`, `status`, `created_at`, `updated_at`) VALUES
 	(1, 'tsai', 'YKqK0qNN19pR4q35tzrFzlYCacJb-bYA', '$2y$13$gkgkmDcctltLSahNcqHvrOU6oL/QgW9Q57rBlJmR/.MF6Ec54J0Cu', NULL, 'tsai@163.com', 10, 10, 1465902873, 1465902873),
 	(2, 'admin', 'ExcYDHuDa-JPowS44Q9GmjWNlhFiuLJv', '$2y$13$hBWnRjN894Yzmw5uxSpgnuepuOu0RMFA0XgiNHG16DY.rjtOcH4jy', NULL, 'admin@admin.com', 10, 10, 1465985822, 1465985822);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
--- 导出  表 advanced.user_backend 结构
+-- 导出  表 kerwin.user_backend 结构
 CREATE TABLE IF NOT EXISTS `user_backend` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -286,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `user_backend` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 正在导出表  advanced.user_backend 的数据：~3 rows (大约)
+-- 正在导出表  kerwin.user_backend 的数据：~3 rows (大约)
 /*!40000 ALTER TABLE `user_backend` DISABLE KEYS */;
 INSERT INTO `user_backend` (`id`, `username`, `auth_key`, `password_hash`, `email`, `created_at`, `updated_at`) VALUES
 	(1, 'admin', 'xHrIurvjnNIM-FNhcb1jKqPCDboPxW8U', '$2y$13$Pou5QI7Qr17ocvCY2N7X9.RMD4nPP5wcn/uX/UYmGkdhTUnYjm/tW', 'admin@admin.com', '2016-06-15 07:34:49', '2016-06-15 07:34:49'),

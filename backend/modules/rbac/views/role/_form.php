@@ -25,7 +25,7 @@ use yii\helpers\Url;
     <div class="form-group">
         <label>权限列表</label>
         <div class="profile-contact-links align-left">
-            <div  style="overflow: auto;height: 100px;" >
+            <div  style="overflow: auto;height: 200px;" >
                 <ul id="treeDemo" class="ztree"></ul>
             </div>
         </div>
