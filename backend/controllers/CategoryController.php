@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function actionCreate()
     {
         $category = new Category();
-        $image_url = '';
+        $image_url = '/images/undefine.jpg';
 
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();

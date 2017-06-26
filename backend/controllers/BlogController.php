@@ -120,7 +120,8 @@ class BlogController extends Controller
         $old_tags = $model->tags;
         $old_category = $model->category;
         $model->tags = Tags::getTagsById(explode(',', $model->tags));
-
+        $hot_tags = $tags->getTagsIdToName();
+        
         if (Yii::$app->request->isPost) {
             $tag = $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
             if ($tag !== false) {
@@ -143,21 +144,23 @@ class BlogController extends Controller
                         Yii::$app->getSession()->setFlash('error', '更新失败');
                         return $this->render('update', [
                             'model' => $model,
-                            'category' => $category['categories']
+                            'category' => $category['categories'],
+                            'hot_tags' => $hot_tags['tags'],
                         ]);
                     }
                 }
             }else{
                 AdminLog::saveLog($this->route, 'opt_update', '标签添加失败', 2);
                 Yii::$app->getSession()->setFlash('error', '标签添加失败');
-                return $this->redirect('create');
+                return $this->redirect('update');
             }
             
         } else {
             AdminLog::saveLog($this->route, 'opt_show', '查看ID为['.$id.']的博客更新界面', 1);
             return $this->render('update', [
                 'model' => $model,
-                'category' => $category['categories']
+                'category' => $category['categories'],
+                'hot_tags' => $hot_tags['tags'],
             ]);
         }
     }
