@@ -7,6 +7,35 @@ use backend\assets\BlogAsset;
 BlogAsset::register($this);
 
 ?>
+
+<style type="text/css">
+
+    ul.tag {
+        margin-top: 2em;
+    }
+    ul.tag li {
+        display: inline-block;
+        margin-top: 6px;
+        margin-right: 3px;
+    }
+    ul.tag li a {
+        display: inline-block;
+        padding: 7px 13px 5px;
+        font-size: 14px;
+        color: #999;
+        border: 1px solid #cecece;
+        letter-spacing: 0.1em;
+        text-decoration: none;
+    }
+    ul.tag li a:hover{
+        background:#337ab7;
+        color:#fff;
+    }
+    ul{
+        margin:0;
+        padding:0;
+    }
+</style>
 <div class="box-body">
     <?php $form = ActiveForm::begin(['options' => ['onkeydown' => 'if(event.keyCode==13){return false;}']]); ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
@@ -52,6 +81,11 @@ BlogAsset::register($this);
     <div class="row">
         <div class="col-xs-12">
             <label for="">热门标签</label>
+            <ul class="tag">
+            <?php foreach ($hot_tags as $key => $value):
+                echo "<li onclick='tags(\"$value\")'><a>$value</a></li>";
+             endforeach; ?>
+            </ul>
         </div>
     </div>
 
@@ -62,4 +96,7 @@ BlogAsset::register($this);
 </div>
 <script>
     // $("#blog-tags").val('php');
+    function tags(name){
+        console.log(name);
+    }
 </script>

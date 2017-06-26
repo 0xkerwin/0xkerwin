@@ -60,9 +60,11 @@ class Category extends \yii\db\ActiveRecord
 
     public static function getIdName()
     {
+        $res = array();
         $data = self::find()->asArray()->all();
-        $res = ArrayHelper::map($data, 'id', 'name');
-
+        $res['categories'] = ArrayHelper::map($data, 'id', 'name');
+        $res['categories_count'] = ArrayHelper::map($data, 'id', 'count');
+        
         return $res;
     }
 

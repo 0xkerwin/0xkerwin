@@ -57,9 +57,12 @@ class Tags extends \yii\db\ActiveRecord
      */
     public function getTagsIdToName()
     {
-        $res = self::find()->all();
+        $res = array();
+        $query = self::find()->all();
+        $res['tags'] = ArrayHelper::map($query, 'id', 'name');
+        $res['tags_count'] = ArrayHelper::map($query, 'id', 'count');
 
-        return ArrayHelper::map($res, 'id', 'name');
+        return $res;
     }
 
     /**

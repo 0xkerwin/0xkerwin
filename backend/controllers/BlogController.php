@@ -64,6 +64,7 @@ class BlogController extends Controller
         $category = Category::getIdName();
         $tags = new Tags();
         $tagMap = new TagMap();
+        $hot_tags = $tags->getTagsIdToName();
 
         if (Yii::$app->request->isPost){
             $tag = empty($post['Blog']['tags']) ? '' : $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
@@ -86,7 +87,8 @@ class BlogController extends Controller
                         Yii::$app->getSession()->setFlash('error', '创建失败');
                         return $this->render('create', [
                             'model' => $model,
-                            'category' => $category,
+                            'category' => $category['categories'],
+                            'hot_tags' => $hot_tags['tags'],
                         ]);
                     }
 
@@ -100,7 +102,8 @@ class BlogController extends Controller
             AdminLog::saveLog($this->route, 'opt_show', '查看添加博客', 1);
             return $this->render('create', [
                 'model' => $model,
-                'category' => $category,
+                'category' => $category['categories'],
+                'hot_tags' => $hot_tags['tags'],
             ]);
         }
     }
@@ -140,7 +143,7 @@ class BlogController extends Controller
                         Yii::$app->getSession()->setFlash('error', '更新失败');
                         return $this->render('update', [
                             'model' => $model,
-                            'category' => $category
+                            'category' => $category['categories']
                         ]);
                     }
                 }
@@ -154,7 +157,7 @@ class BlogController extends Controller
             AdminLog::saveLog($this->route, 'opt_show', '查看ID为['.$id.']的博客更新界面', 1);
             return $this->render('update', [
                 'model' => $model,
-                'category' => $category
+                'category' => $category['categories']
             ]);
         }
     }

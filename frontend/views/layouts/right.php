@@ -12,7 +12,7 @@ use yii\helpers\Url;
             <div class="container-box box-common">
                 <h3><i class="fa fa-tags"></i> 热门标签</h3>
                 <ul class="tag">
-                    <li v-for="(tag, key) in tags"><a v-on:click="searchTag(key)">{{ tag }}</a></li>
+                    <li v-for="(tag, key) in tags['tags']"><a v-on:click="searchTag(key)">{{ tag }}<sup>{{ tags['tags_count'][key] }}</sup></a></li>
                 </ul>
             </div>
         </div>
@@ -22,7 +22,7 @@ use yii\helpers\Url;
             <div class="container-box box-common">
                 <h3><i class="fa fa-folder"></i> 分类</h3>
                 <ul class="nav">
-                    <li v-for="(category, key) in categories"><a v-on:click="searchCategory(key)">{{ category }}</a></li>
+                    <li v-for="(category, key) in categories['categories']"><a v-on:click="searchCategory(key)">{{ category }}<span class="pull-right badge">{{ categories['categories_count'][key] }}</span></a></li>
                 </ul>
             </div>
         </div>

@@ -15,7 +15,7 @@ $this->title = 'Kerwin';
             <!-- main-slider -->
             <ul id="demo1">
                 <li>
-                    <img src="http://static.0xkerwin.com/images/1.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/php.jpg" alt="" />
                     <!--Slider Description example-->
                     <div class="slide-desc">
                         <h3>Fashion</h3>
@@ -23,14 +23,14 @@ $this->title = 'Kerwin';
                     </div>
                 </li>
                 <li>
-                    <img src="http://static.0xkerwin.com/images/2.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/elasticsearch.jpg" alt="" />
                     <div class="slide-desc">
                         <h3>Life Style </h3>
                         <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </p>
                     </div>
                 </li>
                 <li>
-                    <img src="http://static.0xkerwin.com/images/3.jpg" alt="" />
+                    <img src="http://static.0xkerwin.com/images/mysql.jpg" alt="" />
                     <div class="slide-desc">
                         <h3>Photography</h3>
                         <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature. </p>
@@ -108,10 +108,15 @@ $this->title = 'Kerwin';
                             </div>
                         </div>
                     </div>
-                <?php endforeach; endif;?>
+                <?php endforeach;?>
+                
                 <div class="panel-body text-center">
                     <a href="<?= Url::to(['/blog'])?>"><button class="btn btn-warning no-radius">更多文章</button></a>
                 </div>
+
+                <?php else:?>
+                <div class="text-center"><span>没有找到数据</span></div>
+                <?php endif; ?>
             </div>
         </div>
     </div>

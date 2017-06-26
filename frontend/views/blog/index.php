@@ -4,10 +4,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Markdown;
 
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\BlogSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
 $this->title = '博客列表';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -75,7 +71,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
                             </div>
                         </div>
-                    <?php endforeach; endif;?>
+                        <?php endforeach; else:?>
+                        <div class="text-center"><span>没有找到数据</span></div>
+                        <?php endif; ?>
                 </div>
             </div>
         </div>
