@@ -11,7 +11,9 @@ use frontend\assets\AppAsset;
 use frontend\assets\JqueryAsset;
 use common\widgets\Alert;
 use yii\helpers\Url;
+use common\models\Visit;
 
+Visit::Visit(); //统计访问量
 AppAsset::register($this);
 JqueryAsset::register($this);
 $params_str = (new \yii\web\Request)->getQueryParams();

@@ -37,7 +37,7 @@ BlogAsset::register($this);
     }
 </style>
 <div class="box-body">
-    <?php $form = ActiveForm::begin(['options' => ['onkeydown' => 'if(event.keyCode==13){return false;}']]); ?>
+    <?php $form = ActiveForm::begin(); ?>
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'category')->dropDownList($category, ['prompt'=>'请选择']) ?>
@@ -75,15 +75,15 @@ BlogAsset::register($this);
         ]
     ) ?>
 
-    <?= $form->field($model, 'tags')->textInput(['maxlength' => true, 'placeholder' => '输完一个后按回车键'])?>
-    <label class="badge">提示：输入一个标签后请按回车键，若需要多个，请继续输入第二个</label>
+    <?= $form->field($model, 'tags')->textarea(['maxlength' => true, 'placeholder' => '输完一个后按回车键', 'row'=>5, 'style'=>'height:100px'])?>
+    <span class="badge" style="font-size: 9px">提示：若需要多个，请按回车继续输入第二个, 还可以双击下面热门标签填充</span>
 
     <div class="row">
         <div class="col-xs-12">
             <label for="">热门标签</label>
             <ul class="tag">
             <?php foreach ($hot_tags as $key => $value):
-                echo "<li onclick='tags(\"$value\")'><a>$value</a></li>";
+                echo '<li onclick="tags(\''.$value.'\')"><a>'.$value.'</a></li>';
              endforeach; ?>
             </ul>
         </div>
@@ -95,8 +95,21 @@ BlogAsset::register($this);
     <?php ActiveForm::end(); ?>
 </div>
 <script>
-    // $("#blog-tags").val('php');
+    //将逗号转为回车符
+    var tagsValue = document.getElementById("blog-tags").value;
+    tagsValue = tagsValue.replace(/,/g,'\n');
+    document.getElementById("blog-tags").value = tagsValue;
+
+    /**
+     * 标签快速填充
+     */
     function tags(name){
-        console.log(name);
+        var value = document.getElementById("blog-tags").value;
+        var valArr = value.split('\n');
+
+        if (valArr.indexOf(name) == -1) {
+            var valStr = value.length>0 ? value+'\n'+name : name;
+            document.getElementById("blog-tags").value = valStr;
+        }        
     }
 </script>

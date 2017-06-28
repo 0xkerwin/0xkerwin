@@ -39,16 +39,10 @@ class BlogController extends Controller
      */
     public function actionIndex()
     {
-        /*$searchModel = new BlogSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);*/
-
         $model = new Blog();
-        $tagsModel = new Tags();
+        $tagsModel = new Tags();        
+        $redis = \Yii::$app->redis;
+        $redis_keys = \Yii::$app->params['redisKeys'];  //keys前缀
         $pageSize = Yii::$app->params['pageSize'];
         $get = Yii::$app->request->get();
         $where = array('AND');
@@ -74,11 +68,15 @@ class BlogController extends Controller
         $pagination->setPageSize($pageSize);
         $data = $query->offset($pagination->offset)
             ->limit($pagination->limit)
-            /*->createCommand()->getRawSql();
-            echo $data;exit;*/
             ->with('author')
             ->with('categoryInfo')
             ->all();
+
+        //获取浏览次数
+        $views = array_map(function($value) use ($redis, $redis_keys){
+            $view = $redis->llen($redis_keys['views_article'].$value->id);
+            return $view;
+        }, $data);
 
         $tags = $tagsModel->getTagsIdToName();
         $category = Category::getIdName();
@@ -88,6 +86,7 @@ class BlogController extends Controller
             'pagination' => $pagination,
             'tags' => $tags,
             'category' => $category,
+            'views' => $views
         ]);
     }
 
@@ -98,10 +97,13 @@ class BlogController extends Controller
      */
     public function actionView($id)
     {
-        /*return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);*/
-        $blog = new Blog();
+        $blog = new Blog();        
+        $redis = \Yii::$app->redis;
+        $redis_keys = \Yii::$app->params['redisKeys'];  //keys前缀
+        $ip = $_SERVER["REMOTE_ADDR"];
+
+        //redis列表名views_article_+id，统计浏览次数
+        $redis->lpush($redis_keys['views_article'].$id, $ip);
         $data = $blog->getOneBlog($id);
         $category = Category::getOneCategory($data->category);
         $tags = Tags::getTagsById(explode(',', $data->tags));

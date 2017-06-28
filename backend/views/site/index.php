@@ -1,5 +1,8 @@
 <?php
 use \yii\helpers\Url;
+use backend\assets\SiteAsset;
+
+SiteAsset::register($this);
 $this->title = '首页';
  ?>
 <!-- Main content -->
@@ -47,16 +50,16 @@ $this->title = '首页';
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-xs-6">
-                                    <div class="small-box bg-yellow">
+                                    <div class="small-box bg-green">
                                         <div class="inner">
-                                            <h3>0</h3>
+                                            <h3><?= $visitCount?></h3>
 
-                                            <p>前一小时在线用户</p>
+                                            <p>今日访问人数</p>
                                         </div>
                                         <div class="icon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <a href="#" class="small-box-footer"> 邀请管理 <i class="fa fa-arrow-circle-right"></i>
+                                        <a href="#visit" class="small-box-footer"> 访问人数 <i class="fa fa-arrow-circle-right"></i>
                                         </a>
                                     </div>
 

@@ -78,6 +78,8 @@ class SiteController extends Controller
     {
         $model = new Blog();
         $tagsModel = new Tags();
+        $redis = \Yii::$app->redis;
+        $redis_keys = \Yii::$app->params['redisKeys'];  //keys前缀
         $pageSize = Yii::$app->params['pageSize'];
         $data = $model->find()
             ->with('author')
@@ -85,6 +87,13 @@ class SiteController extends Controller
             ->orderBy('create_time desc')
             ->limit($pageSize)
             ->all();
+
+        //获取浏览次数
+        $views = array_map(function($value) use ($redis, $redis_keys){
+            $view = $redis->llen($redis_keys['views_article'].$value->id);
+            return $view;
+        }, $data);
+
         $tags = $tagsModel->getTagsIdToName();
         $category = Category::getIdName();
 
@@ -92,6 +101,7 @@ class SiteController extends Controller
             'data' => $data,
             'tags' => $tags,
             'category' => $category,
+            'views' => $views
         ]);
     }
 

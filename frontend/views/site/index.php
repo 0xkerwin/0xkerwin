@@ -69,8 +69,8 @@ $this->title = 'Kerwin';
                                     <p class="post-tags">
                                         <span class="fa fa-user tags-space"> <a href="#"><?= $value->author->username ?></a></span>
                                         <span class="fa fa-clock-o tags-space"> <?= date('Y-m-d', strtotime($value->create_time)) ?></span>
-                                        <span class="fa fa-eye tags-space"> 10000</span>
-                                        <span class="fa fa-comment tags-space"> <a href="#">10</a></span>
+                                        <span class="fa fa-eye tags-space"> <?= isset($views[$key]) ? $views[$key] : 0 ?></span>
+                                        <!-- <span class="fa fa-comment tags-space"> <a href="#">10</a></span> -->
                                     </p>
                                 </div>
                                 <div class="col-lg-12">
@@ -93,8 +93,8 @@ $this->title = 'Kerwin';
                                         if (isset($value->tags)):
                                             echo '<span class="fa fa-tags"></span>';
                                             foreach (explode(',', $value->tags) as $k => $v):
-                                                if (isset($tags[$v])):
-                                                    echo '<a href="'.Url::to(["blog/index", "tag"=>$v]).'" class="label label-warning tags-space">'.$tags[$v].'</a>';
+                                                if (isset($tags['tags'][$v])):
+                                                    echo '<a href="'.Url::to(["blog/index", "tag"=>$v]).'" class="label label-warning tags-space">'.$tags['tags'][$v].'</a>';
                                                 endif;
                                             endforeach;
                                         endif;

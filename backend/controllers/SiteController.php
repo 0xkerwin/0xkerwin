@@ -9,6 +9,8 @@ use backend\models\LoginForm;
 use backend\modules\rbac\models\UserBackend;
 use backend\models\AdminLog;
 use backend\models\Blog;
+use common\models\Visit;
+use yii\helpers\Json;
 
 /**
  * Site controller
@@ -26,7 +28,7 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         // 当前rule将会针对这里设置的actions起作用，如果actions不设置，默认就是当前控制器的所有操作
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'visit'],
                         // 设置actions的操作是允许访问还是拒绝访问
                         'allow' => true,
                     ],
@@ -68,10 +70,10 @@ class SiteController extends Controller
     {
         $userInfo = new UserBackend();
         $blog = new Blog();
-        /*echo "<pre>";
-        $session = \Yii::$app->session;
-        var_dump($session);exit;*/
-        // $menus = Yii::$app->user->identity->getSystemMenus();
+        $redis = \Yii::$app->redis;
+        $redisKeys = \Yii::$app->params['redisKeys'];
+        $date = date('Ymd', time());
+        
         $sysInfo = [
             ['name'=> '操作系统', 'value'=>php_uname('s').' '.php_uname('r').' '.php_uname('v')],
             ['name'=>'PHP版本', 'value'=>phpversion()],
@@ -82,12 +84,14 @@ class SiteController extends Controller
         ];
         $user_count = $userInfo->getUserCount();
         $blog_count = $blog->getBlogCount();
+        $visit_count = $redis->llen($redisKeys['visit'].$date);
         AdminLog::saveLog($this->route, 'opt_show', '查看首页', 1, ['model'=>'首页', 'object'=>'首页']);
         return $this->render('index', [
             // 'system_menus' => $menus,
             'sysInfo'=>$sysInfo,
             'userCount' => $user_count,
             'blogCount' => $blog_count,
+            'visitCount' => $visit_count,
         ]);
     }
 
@@ -129,6 +133,36 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    /**
+     * 获取pv和uv量
+     * @param  string $mode      访问类型（pv|uv）
+     * @param  string $date_type 日期范围类型
+     *                           'a_week': 一周
+     *                           'three_week': 三周
+     *                           'one_month': 一个月
+     *                           'three_month': 三个月
+     *                           'half_year': 半年
+     *                           'one_year': 一年
+     *                           'search': 自定义时间
+     * @param  string $date      自定义时间
+     * @return json              日期和访问量
+     */
+    public function actionVisit($mode='pv', $date_type='a_week', $date='')
+    {
+        $visit = new Visit();
+        $search_date = array();
+
+        if ($date_type == 'search') {
+            $date = explode('-', $date);
+            $search_date['start_date'] = isset($date[0]) ? $date[0] : '';
+            $search_date['end_date'] = isset($date[1]) ? $date[1] : '';
+        }
+
+        $data = $mode=='pv' ? $visit->getPageViews($date_type, $search_date) : $visit->getUniqueVisitor($date_type, $search_date);
+
+        return Json::encode($data);
     }
 
     private function getDbVersion(){

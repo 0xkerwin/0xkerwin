@@ -22,7 +22,6 @@ class BlogController extends Controller
     public function actionIndex()
     {
         $blog = new Blog();
-
         $get = Yii::$app->request->get();
         $title = isset($get['title']) ? trim($get['title']) : '';
         $content = isset($get['content']) ? trim($get['content']) : '';
@@ -67,7 +66,7 @@ class BlogController extends Controller
         $hot_tags = $tags->getTagsIdToName();
 
         if (Yii::$app->request->isPost){
-            $tag = empty($post['Blog']['tags']) ? '' : $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
+            $tag = empty($post['Blog']['tags']) ? '' : $tags->getTagsByName(array_unique(explode(PHP_EOL, $post['Blog']['tags'])));
 
             if ($tag !== false) {
                 $post['Blog']['tags'] = $tag;
@@ -121,9 +120,9 @@ class BlogController extends Controller
         $old_category = $model->category;
         $model->tags = Tags::getTagsById(explode(',', $model->tags));
         $hot_tags = $tags->getTagsIdToName();
-        
+
         if (Yii::$app->request->isPost) {
-            $tag = $tags->getTagsByName(array_unique(explode(',', $post['Blog']['tags'])));
+            $tag = $tags->getTagsByName(array_unique(explode(PHP_EOL, $post['Blog']['tags'])));
             if ($tag !== false) {
                 $post['Blog']['tags'] = $tag;
 

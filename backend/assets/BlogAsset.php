@@ -12,11 +12,11 @@ class BlogAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/bootstrap-tokenfield.css',
+        // 'css/bootstrap-tokenfield.css',
     ];
     public $js = [
-        'js/bootstrap-tokenfield.js',
-        'js/blog.js',
+        // 'js/bootstrap-tokenfield.js',
+        // 'js/blog.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
