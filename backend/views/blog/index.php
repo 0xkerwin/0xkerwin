@@ -30,6 +30,10 @@ $params_str = (new \yii\web\Request)->getQueryParams();
                             <div class="col-xs-12">
                                 <form id="search-form" class="form-inline" action="<?= Url::to('index')?>" method="get">
                                     <div class="form-group">
+                                        <label>创建时间:</label>
+                                        <input type="text" class="form-control" id="" name="time_range" readonly="" value="<?= isset($params_str['time_range']) ? $params_str['time_range'] : ''?>">
+                                    </div>
+                                    <div class="form-group">
                                         <label>标题:</label>
                                         <input type="text" class="form-control" name="title" value="<?= isset($params_str['title']) ? $params_str['title'] : ''?>">
                                     </div>
@@ -40,10 +44,6 @@ $params_str = (new \yii\web\Request)->getQueryParams();
                                     <div class="form-group">
                                         <label>作者:</label>
                                         <input type="text" class="form-control" id="" name="author" value="<?= isset($params_str['author']) ? $params_str['author'] : ''?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label>创建时间:</label>
-                                        <input type="text" class="form-control" id="" name="time_range" readonly="" value="<?= isset($params_str['time_range']) ? $params_str['time_range'] : ''?>">
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-search"></i> 搜索</button>

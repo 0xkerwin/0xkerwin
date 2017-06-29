@@ -29,16 +29,16 @@ $params_str = (new \yii\web\Request)->getQueryParams();
                             <div class="col-xs-12">
                                 <form id="search-form" class="form-inline" action="<?= Url::to('index')?>" method="get">
                                     <div class="form-group">
+                                        <label><?=$attrbutes['record_time']; ?>：</label>
+                                        <input type="text" class="form-control" id="" name="time_range" readonly="" value="<?= isset($params_str['time_range']) ? $params_str['time_range'] : ''?>">
+                                    </div>
+                                    <div class="form-group">
                                         <label><?=$attrbutes['admin_name']; ?>：</label>
                                         <input type="text" class="form-control" name="admin_name" value="<?= isset($params_str['admin_name']) ? $params_str['admin_name'] : ''?>">
                                     </div>
                                     <div class="form-group">
                                         <label><?=$attrbutes['object']; ?>：</label>
                                         <input type="text" class="form-control" name="object" value="<?= isset($params_str['object']) ? $params_str['object'] : ''?>">
-                                    </div>
-                                    <div class="form-group">
-                                        <label><?=$attrbutes['record_time']; ?>：</label>
-                                        <input type="text" class="form-control" id="" name="time_range" readonly="" value="<?= isset($params_str['time_range']) ? $params_str['time_range'] : ''?>">
                                     </div>
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary btn-sm"> <i class="fa fa-search"></i> 搜索</button>

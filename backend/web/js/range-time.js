@@ -1,4 +1,7 @@
-$('[name=time_range]').cnDateRangePicker({
+var formatStr = $('input[name=time_range]').attr('data-format');
+var format = formatStr==undefined||formatStr.length==0 ? "YYYY/MM/DD HH:mm:ss" : formatStr;
+
+$('input[name=time_range]').cnDateRangePicker({
     "autoUpdateInput": false,
     "showDropdowns": true,
     "showWeekNumbers": true,
@@ -6,9 +9,9 @@ $('[name=time_range]').cnDateRangePicker({
     "timePicker": true,
     "timePicker24Hour": true,
     "timePickerSeconds": true,
-    "opens": "center",
+    "opens": "right",
     "locale": {
-        "format": "YYYY/MM/DD HH:mm:ss",
+        "format": format,
         "cancelLabel": '清空'
     },
     // "startDate": "00/00/0000 00:00:00",
@@ -18,7 +21,7 @@ $('[name=time_range]').cnDateRangePicker({
 });
 
 $('input[name="time_range"]').on('apply.daterangepicker', function(ev, picker) {
-    $(this).val(picker.startDate.format('YYYY/MM/DD HH:mm:ss') + ' - ' + picker.endDate.format('YYYY/MM/DD HH:mm:ss'));
+    $(this).val(picker.startDate.format(format) + ' - ' + picker.endDate.format(format));
 });
 
 $('input[name="time_range"]').on('cancel.daterangepicker', function(ev, picker) {

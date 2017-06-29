@@ -161,7 +161,7 @@ class SiteController extends Controller
         }
 
         $data = $mode=='pv' ? $visit->getPageViews($date_type, $search_date) : $visit->getUniqueVisitor($date_type, $search_date);
-
+        
         return Json::encode($data);
     }
 

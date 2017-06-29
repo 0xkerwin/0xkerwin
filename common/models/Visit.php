@@ -76,8 +76,14 @@ class Visit
 
         $redis = \Yii::$app->redis;
         $redis_keys = \Yii::$app->params['redisKeys'];  //keys前缀
-
-        $start_date = $date['start_date'];
+        
+        if (strpos($date['start_date'], '/')!=false) {
+            $start_date = str_replace('/', '', $date['start_date']);
+        }else if (strpos($date['start_date'], '-')!=false) {
+            $start_date = str_replace('-', '', $date['start_date']);
+        }else{
+            $start_date = $date['start_date'];
+        }
         $date_arr = array($this->formatDate($start_date));
         $visit_num = array();
 
@@ -165,7 +171,7 @@ class Visit
     {
         $year = substr($date, 0, 4);
         $month = substr($date, 4, 2);
-        $days = substr($date, -2);
+        $days = substr($date, 6, 2);
 
         return $year.'-'.$month.'-'.$days;
     }
