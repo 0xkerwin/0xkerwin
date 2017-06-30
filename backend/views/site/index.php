@@ -8,18 +8,13 @@ TimeRangeAsset::register($this);
 $this->title = '首页';
  ?>
  <style type="text/css">
-    /* #visit {
-        height: 25vw;
-    }
-    #chart {
-        height: 25vw;
-    } */
     .show-more-div {
         float: right;
         padding: 10px 20px 10px 20px;
         text-align: right;
         width: 100%;
     }
+    
     .nav-tabs-custom {
         cursor: move; border: 1px solid #ddd
     }
@@ -137,6 +132,9 @@ $this->title = '首页';
 
                     <div class="row">
                         <div class="col-xs-12">
+                            <div class="box-header with-border">
+                                <h5 class="box-title"><i class="fa fa-info-circle"></i> 系统信息</h5>
+                            </div>
                             <div class="box-body table-responsive no-padding">
                                 <table class="table table-hover">
                                     <tbody>

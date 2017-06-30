@@ -6,6 +6,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         
+        /*redis连接*/
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'localhost',

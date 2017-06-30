@@ -31,7 +31,7 @@ use yii\helpers\Url;
     </div>
     <!-- <strong>Copyright &copy; 2016-2017 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
     reserved. -->
-    <strong>Copyright &copy; 2016-2017 <a href="https://0xkerwin.github.io">0xkerwin</a>.</strong> All rights
+    <strong>Copyright &copy; <?= date('Y', time())?> <a href="https://0xkerwin.github.io"><?= \Yii::$app->params['systemName']?></a>.</strong> All rights
     reserved.
 </footer>
 

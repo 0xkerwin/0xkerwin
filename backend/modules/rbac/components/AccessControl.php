@@ -83,25 +83,16 @@ class AccessControl extends \yii\base\ActionFilter
     /**
      * 排除的Action 比如ajax请求,错误页面等
      */
-    private function _allowActions($user){
+    private function _allowActions($user)
+    {
+        $optAuth = \Yii::$app->params['optAuth'];
+
         if ($user->getIsGuest()) {
-            return [
-                'site/error',
-                'site/logout',
-                'site/login',
-                'site/captcha',
-            ];
+
+            return $optAuth['guest'];
         }else{
-            return [
-                'site/error',
-                'site/index',
-                'role/get-tree',/*ajax获取角色列表*/
-                'permission/get-tree',/*ajax获取权限列表*/
-                'site/logout',
-                'site/login',
-                'site/captcha',
-                'file/upload',
-            ];
+
+            return $optAuth['user'];
         }
     }
 }

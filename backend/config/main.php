@@ -12,7 +12,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'rbac' => '\backend\modules\rbac\Module',
+        'rbac' => 'backend\modules\rbac\Module',
     ],
     /*'modules' => [
         "admin" => [        
@@ -50,15 +50,8 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
 
+        /*路由美化*/
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
@@ -79,26 +72,20 @@ return [
             ],
         ],
 
-        "authManager" => [        
+        /*rbac*/
+        'authManager' => [        
             "class" => 'yii\rbac\DbManager', //这里记得用单引号而不是双引号        
             "defaultRoles" => ["guest"],
         ],
     ],
 
+    /*权限控制*/
     'as access' => [
         'class' => 'backend\modules\rbac\components\AccessControl',
     ],
 
-    /*'as access' => [
-        'class' => 'mdm\admin\components\AccessControl',
-        'allowActions' => [
-            //这里是允许访问的action
-            //controller/action
-            '*'
-            // 'site/*'
-        ]
-    ],*/
     'params' => $params,
+    
     /*'on beforeRequest' => function($event) {
         \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_UPDATE, ['backend\components\syslog\SystemLog', 'write']);
     },*/

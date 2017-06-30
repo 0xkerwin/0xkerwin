@@ -26,4 +26,26 @@ return [
         ['opt_login' => '登录'],
         ['opt_logout' => '登出'],
     ],
+
+    /*针对访客和用户开放的操作权限*/
+    'optAuth' => [
+        'guest' => [
+            'site/error',
+            'site/logout',
+            'site/login',
+            'site/captcha',
+        ],
+        'user' => [
+            'site/error',
+            'site/index',
+            'site/visit', //ajax获取访问人数
+            'role/get-tree',//ajax获取角色列表
+            'permission/get-tree',//ajax获取权限列表
+            'site/logout',
+            'site/login',
+            'site/captcha',
+            'file/upload',
+            'debug/default/toolbar', //debug调试
+        ],
+    ],
 ];

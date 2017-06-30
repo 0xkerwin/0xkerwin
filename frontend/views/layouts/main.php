@@ -24,6 +24,7 @@ $params_str = (new \yii\web\Request)->getQueryParams();
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="<?= \Yii::$app->params['staticDomain']?>/images/kerwin.ico" type="image/x-icon"/>
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
@@ -34,7 +35,7 @@ $params_str = (new \yii\web\Request)->getQueryParams();
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => '0xkerwin',
+        'brandLabel' => Yii::$app->params['systemName'],
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -43,11 +44,11 @@ $params_str = (new \yii\web\Request)->getQueryParams();
     $menuItems = [
         ['label' => '首页', 'url' => ['/site/index']],
         ['label' => '博客', 'url' => ['/blog/index']],
-        ['label' => '关于', 'url' => ['/site/about']],
-        ['label' => '联系', 'url' => ['/site/contact']],
+        // ['label' => '关于', 'url' => ['/site/about']],
+        // ['label' => '联系', 'url' => ['/site/contact']],
         '<li><form class="navbar-form" action="'.Url::to(['/blog/index']).'" method="get"><div class="input-group"><input type="text" class="form-control" name="search_keyword" placeholder="全站搜索" value="'.(isset($params_str['search_keyword']) ? $params_str['search_keyword'] : '').'"><span class="input-group-btn"><button type="submit" class="btn btn-default"><span class="fa fa-search"></span></button></span></div></form><li>',
     ];
-    if (Yii::$app->user->isGuest) {
+    /*if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => '注册', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '登录', 'url' => ['/site/login']];
     } else {
@@ -59,7 +60,7 @@ $params_str = (new \yii\web\Request)->getQueryParams();
             )
             . Html::endForm()
             . '</li>';
-    }
+    }*/
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
