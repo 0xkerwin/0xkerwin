@@ -1,8 +1,8 @@
 <?php 
 return [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=localhost;dbname=advanced',
+    'dsn' => 'mysql:host=localhost;dbname=kerwin',
     'username' => 'root',
-    'password' => 'ele-fence@2015#seentech',
+    'password' => '123456',
     'charset' => 'utf8',
 ];

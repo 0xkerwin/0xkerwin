@@ -17,7 +17,7 @@ class JqueryAsset extends AssetBundle
     ];
     public $js = [
         'js/jquery-1.10.2.min.js',
-        'js/vue.js',
+        'js/vue.min.js',
     ];
     public $jsOptions = ['position' => \yii\web\View::POS_HEAD];
 }
