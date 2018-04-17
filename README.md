@@ -33,5 +33,4 @@ git clone https://github.com/0xkerwin/0xkerwin.git
 
 - 执行` composer install `安装Yii2；
 - 运行` init `对系统进行初始化；
-- 导入Mysql数据，sql文件在doc目录下；
-- 该系统的前台和后台在不同域名，需要两个域名（这样能使系统更安全）。
+- 导入Mysql数据，sql文件在doc目录下。
